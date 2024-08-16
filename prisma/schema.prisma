@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id                Int           @id @default(autoincrement())
+  amount            Float
+  type              String
+  parent_id         Int?
+  Transaction       Transaction?  @relation("TransactionToTransaction", fields: [parent_id], references: [id])
+  other_Transaction Transaction[] @relation("TransactionToTransaction")
+}
