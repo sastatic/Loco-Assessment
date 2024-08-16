@@ -1,8 +1,21 @@
-const app = require("./app");
-const config = require("./config/config");
+const http = require("http");
+const app = require("./app"); // Import the app
+const config = require("./config/config"); // Configurations (e.g., port, environment)
 
-const port = config.port;
+const port = process.env.PORT || config.port; // Port configuration
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+// Create the HTTP server
+const server = http.createServer(app);
+
+// Start the server
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+// Graceful shutdown handling
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Shutting down gracefully...");
+  server.close(() => {
+    console.log("Process terminated");
+  });
 });

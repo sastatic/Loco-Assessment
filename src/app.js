@@ -1,6 +1,7 @@
 const express = require("express");
-const app = express();
 const transactionRoutes = require("./routes/transactionRoutes");
+
+const app = express();
 
 // Middleware
 app.use(express.json());
