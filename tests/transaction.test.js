@@ -4,10 +4,7 @@ const prisma = require("../src/config/prisma");
 
 describe("Transaction Service API", () => {
   beforeAll(async () => {
-    // Run your seed or manually insert data if necessary
-    await prisma.transaction.deleteMany(); // Clear the database before tests
-
-    // Seed the database
+    await prisma.transaction.deleteMany();
     await prisma.transaction.createMany({
       data: [
         { id: 1, amount: 5000, type: "cars", parent_id: null },
@@ -21,7 +18,7 @@ describe("Transaction Service API", () => {
   });
 
   afterAll(async () => {
-    await prisma.$disconnect(); // Disconnect from the database after tests
+    await prisma.$disconnect();
   });
 
   describe("PUT /transactionservice/transaction/:transaction_id", () => {
