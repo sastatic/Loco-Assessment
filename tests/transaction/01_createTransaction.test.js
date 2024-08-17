@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../src/app");
+const app = require("../../src/app");
 
 describe("POST /transactionservice/transaction/:transaction_id", () => {
   it("should create a new transaction", async () => {

@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../src/app");
+const app = require("../../src/app");
 
 describe("GET /transactionservice/sum/:transaction_id", () => {
   it("should return the sum of all transactions linked to a specific transaction", async () => {
