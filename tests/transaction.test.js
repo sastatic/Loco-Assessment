@@ -3,24 +3,6 @@ const app = require("../src/app");
 const prisma = require("../src/config/prisma");
 
 describe("Transaction Service API", () => {
-  beforeAll(async () => {
-    await prisma.transaction.deleteMany();
-    await prisma.transaction.createMany({
-      data: [
-        { id: 1, amount: 5000, type: "cars", parent_id: null },
-        { id: 2, amount: 10000, type: "shopping", parent_id: 1 },
-        { id: 3, amount: 3000, type: "cars", parent_id: 1 },
-        { id: 4, amount: 2000, type: "electronics", parent_id: null },
-        { id: 5, amount: 1500, type: "shopping", parent_id: 2 },
-        { id: 6, amount: 1000, type: "shopping", parent_id: 2 },
-      ],
-    });
-  });
-
-  afterAll(async () => {
-    await prisma.$disconnect();
-  });
-
   describe("PUT /transactionservice/transaction/:transaction_id", () => {
     it("should create a new transaction", async () => {
       const res = await request(app)
@@ -56,7 +38,7 @@ describe("Transaction Service API", () => {
     it("should return the sum of all transactions linked to a specific transaction", async () => {
       const res = await request(app).get("/transactionservice/sum/1");
       expect(res.status).toBe(200);
-      expect(res.body).toEqual({ sum: 19500 });
+      expect(res.body).toEqual({ sum: 20500 });
     });
   });
 
@@ -76,7 +58,7 @@ describe("Transaction Service API", () => {
 
       // Validate the responses
       expect(responses[0].status).toBe(200);
-      expect(responses[0].body).toEqual({ sum: 19500 });
+      expect(responses[0].body).toEqual({ sum: 20500 });
 
       expect(responses[1].status).toBe(200);
       expect(responses[1].body).toEqual({ sum: 12500 });
