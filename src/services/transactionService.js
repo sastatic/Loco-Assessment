@@ -78,22 +78,25 @@ exports.getTransactionsByType = async (type) => {
 
 // Get the sum of all transactions linked by parent_id to a specific transaction
 exports.getSum = async (transaction_id) => {
-  let total = 0;
   const calculateSum = async (id) => {
     const transaction = await prisma.transaction.findUnique({
       where: { id },
       include: { children: true },
     });
 
-    if (transaction) {
-      total += transaction.amount;
-      for (const child of transaction.children) {
-        await calculateSum(child.id);
-      }
+    if (!transaction) {
+      return 0; // If no transaction is found, return 0
     }
+
+    let sum = transaction.amount;
+    for (const child of transaction.children) {
+      sum += await calculateSum(child.id);
+    }
+    return sum;
   };
+
   try {
-    await calculateSum(transaction_id);
+    const total = await calculateSum(transaction_id);
     logger.info(`Fetched transaction sum: ${transaction_id}`);
     return total;
   } catch (error) {
