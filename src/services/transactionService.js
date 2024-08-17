@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../src/config/prisma");
 const logger = require("../middlewares/logger");
 
 // Create a new transaction
