@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Transaction {
-  id                Int           @id @default(autoincrement())
+  id                Int           @id 
   amount            Float
   type              String
   parent_id         Int?
-  Transaction       Transaction?  @relation("TransactionToTransaction", fields: [parent_id], references: [id])
-  other_Transaction Transaction[] @relation("TransactionToTransaction")
+  parent            Transaction?  @relation("TransactionToTransaction", fields: [parent_id], references: [id])
+  children          Transaction[] @relation("TransactionToTransaction")
 }

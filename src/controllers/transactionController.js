@@ -1,8 +1,9 @@
+const logger = require("../middlewares/logger");
 const transactionService = require("../services/transactionService");
 
 exports.createTransaction = async (req, res) => {
   try {
-    const { transaction_id } = req.params;
+    const transaction_id = parseInt(req.params.transaction_id, 10);
     const { amount, type, parent_id } = req.body;
 
     const result = await transactionService.createTransaction(
@@ -17,9 +18,26 @@ exports.createTransaction = async (req, res) => {
   }
 };
 
+exports.updateTransaction = async (req, res) => {
+  try {
+    const transaction_id = parseInt(req.params.transaction_id, 10);
+    const { amount, type, parent_id } = req.body;
+
+    const result = await transactionService.updateTransaction(
+      transaction_id,
+      amount,
+      type,
+      parent_id
+    );
+    res.status(200).json({ status: "ok" });
+  } catch (error) {
+    res.status(500).json({ error: "Error updating transaction" });
+  }
+};
+
 exports.getTransaction = async (req, res) => {
   try {
-    const { transaction_id } = req.params;
+    const transaction_id = parseInt(req.params.transaction_id, 10);
     const transaction = await transactionService.getTransaction(transaction_id);
 
     if (!transaction) {
@@ -34,7 +52,7 @@ exports.getTransaction = async (req, res) => {
 
 exports.getTransactionsByType = async (req, res) => {
   try {
-    const { type } = req.params;
+    const type = req.params.type;
     const transactionIds = await transactionService.getTransactionsByType(type);
 
     res.status(200).json(transactionIds);
@@ -45,7 +63,7 @@ exports.getTransactionsByType = async (req, res) => {
 
 exports.getSum = async (req, res) => {
   try {
-    const { transaction_id } = req.params;
+    const transaction_id = parseInt(req.params.transaction_id, 10);
     const sum = await transactionService.getSum(transaction_id);
 
     res.status(200).json({ sum });

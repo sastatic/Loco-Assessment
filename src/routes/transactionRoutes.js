@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const transactionController = require("../controllers/transactionController");
 
-router.put(
+router.post(
   "/transaction/:transaction_id",
   transactionController.createTransaction
+);
+router.put(
+  "/transaction/:transaction_id",
+  transactionController.updateTransaction
 );
 router.get(
   "/transaction/:transaction_id",
