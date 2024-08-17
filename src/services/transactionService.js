@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const logger = require("../middlewares/logger");
-const { log } = require("winston");
 
 // Create a new transaction
 exports.createTransaction = async (id, amount, type, parent_id = null) => {
