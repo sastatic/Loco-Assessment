@@ -16,6 +16,7 @@ exports.createTransaction = async (id, amount, type, parent_id = null) => {
   }
 };
 
+// Update a transaction
 exports.updateTransaction = async (id, amount, type, parent_id = null) => {
   try {
     let transaction = await this.getTransaction(id);
